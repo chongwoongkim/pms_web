@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import Button from "../UI/Button/Button";
 import Card from "../UI/Card/Card";
 import Input from "../UI/Input/Input";
-
+import useHttp from "./hooks/use-http";
 import classes from "./User.module.css";
 
 const JoninUser = () => {
+  const { isLoading, error, sendRequest: sendTaskRequest } = useHttp();
   // 사용자 관련 상태값을 세팅한다
   const [enterUserId, setUserId] = useState("");
   const [enterPassword, setPassword] = useState("");
@@ -20,16 +21,15 @@ const JoninUser = () => {
   const [enterCellphone, setCellphone] = useState("");
   const [enterOfficePhone, setOfficePhone] = useState("");
   const [enterBirthday, setBirthday] = useState("");
-
   // 유효성 검사 영역, 전체적으로 검사하기 좋은 방식을 확인한다
   const userIdChangeHandler = (event) => {
     setUserId(event.target.value);
   };
 
   //전송영역
-  function submitHandler(event) {
+  const submitHandler = (event) => {
     event.preventDefault();
-    const userInfo = {
+    const userInfoSet = {
       userid: enterUserId,
       password: enterPassword,
       name: enterName,
@@ -42,17 +42,31 @@ const JoninUser = () => {
       officePhone: enterOfficePhone,
       birthday: enterBirthday,
     };
-    addJoinMember(userInfo);
-  }
+    sendTaskRequest(
+      {
+        url: "url",
+        method: "post",
+        headers: '"content-Type": "application/json"',
+        body: userInfoSet,
+      },
+      sendResult
+    );
+    const sendResult = (resultData) => {
+      console.log(resultData);
+    };
+    //addJoinMember(userInfo);
+  };
+  /* 
   function addJoinMember(userInfo) {
     fetch("URL", {
       method: "POST",
       body: JSON.stringify(userInfo),
       headers: {
-        "content-Type": "application/json",
+        ,
       },
     });
   }
+ */
   return (
     <Card className={classes.login}>
       <form onSubmit={submitHandler}>
