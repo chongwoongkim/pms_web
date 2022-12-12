@@ -3,12 +3,21 @@ import React, { useState, useEffect, useCallback } from "react";
 import Button from "../UI/Button/Button";
 import Card from "../UI/Card/Card";
 import Input from "../UI/Input/Input";
-import useHttp from "./hooks/use-http";
+import useHttp from "../../hooks/use-http";
 import classes from "./User.module.css";
 
 const JoninUser = () => {
-  const { isLoading, error, sendRequest: sendTaskRequest } = useHttp();
+  /* 
+  const testData = (taskObj) => {
+    console.log(taskObj);
+  };
+  const { isLoading, error, sendRequest: submitHandler } = useHttp(
+    { url: "http://54.180.142.131/hello" },
+    testData
+  );
+   */
   // 사용자 관련 상태값을 세팅한다
+
   const [enterUserId, setUserId] = useState("");
   const [enterPassword, setPassword] = useState("");
   const [enterRePassword, setRePassword] = useState("");
@@ -25,12 +34,62 @@ const JoninUser = () => {
   const userIdChangeHandler = (event) => {
     setUserId(event.target.value);
   };
+  const passwordChangeHandler = (event) => {
+    setPassword(event.target.value);
+  };
+  const rePasswordChangeHandler = (event) => {
+    setRePassword(event.target.value);
+  };
+  const nameChangeHandler = (event) => {
+    setName(event.target.value);
+  };
+  const companyChangeHandler = (event) => {
+    setCompany(event.target.value);
+  };
+  const positionChangeHandler = (event) => {
+    setPosition(event.target.value);
+  };
+  const teamChangeHandler = (event) => {
+    setTeam(event.target.value);
+  };
+  const mainDetailJobChangeHandler = (event) => {
+    setMainDetailJob(event.target.value);
+  };
+  const userRoleChangeHandler = (event) => {
+    setUserRole(event.target.value);
+  };
+  const cellphoneChangeHandler = (event) => {
+    setCellphone(event.target.value);
+  };
+  const officePhoneChangeHandler = (event) => {
+    setOfficePhone(event.target.value);
+  };
+  const birthDayChangeHandler = (event) => {
+    setBirthday(event.target.value);
+  };
+  /*
+  useEffect(() => {
+    submitHandler();
+  }, []);
+*/
 
-  //전송영역
+  const { isLoading, error, sendRequest: sendTaskRequest } = useHttp();
+  const resultFunc = (data) => {
+    if (data.success) {
+      alert("가입이 완료되었습니다.");
+    } else {
+      alert("가입이 실패했습니다.\n관라자에게 문의하세요.");
+    }
+    if (error) {
+      alert("가입이 실패했습니다.\n관라자에게 문의하세요.");
+    }
+  };
   const submitHandler = (event) => {
+    //error = null;
     event.preventDefault();
+
     const userInfoSet = {
-      userid: enterUserId,
+      userId: enterUserId,
       password: enterPassword,
       name: enterName,
       company: enterCompany,
@@ -44,29 +103,20 @@ const JoninUser = () => {
     };
     sendTaskRequest(
       {
-        url: "url",
+        url: "/api/v1/user",
         method: "post",
-        headers: '"content-Type": "application/json"',
+        headers: { "content-Type": "application/json" },
         body: userInfoSet,
       },
-      sendResult
+      resultFunc
     );
-    const sendResult = (resultData) => {
-      console.log(resultData);
-    };
-    //addJoinMember(userInfo);
+    if (isLoading) {
+      console.log("로딩");
+    }
+    if (error != null) {
+      console.log(error);
+    }
   };
-  /* 
-  function addJoinMember(userInfo) {
-    fetch("URL", {
-      method: "POST",
-      body: JSON.stringify(userInfo),
-      headers: {
-        ,
-      },
-    });
-  }
- */
   return (
     <Card className={classes.login}>
       <form onSubmit={submitHandler}>
@@ -74,109 +124,109 @@ const JoninUser = () => {
           id="userId"
           label="사용자ID"
           type="text"
-          isValid={null}
+          isValid={true}
           value={enterUserId}
-          onChange={null}
-          onBlur={null}
+          onChange={userIdChangeHandler}
+          onBlur={() => {}}
         />
         <Input
           id="password"
           label="비밀번호"
           type="password"
-          isValid={null}
+          isValid={true}
           value={enterPassword}
-          onChange={null}
-          onBlur={null}
+          onChange={passwordChangeHandler}
+          onBlur={() => {}}
         />
         <Input
           id="rePassword"
           label="비밀번호 확인"
           type="password"
-          isValid={null}
+          isValid={true}
           value={enterRePassword}
-          onChange={null}
-          onBlur={null}
+          onChange={rePasswordChangeHandler}
+          onBlur={() => {}}
         />
         <Input
           id="name"
           label="이름"
           type="text"
-          isValid={null}
+          isValid={true}
           value={enterName}
-          onChange={null}
-          onBlur={null}
+          onChange={nameChangeHandler}
+          onBlur={() => {}}
         />
         <Input
           id="company"
           label="회사"
           type="text"
-          isValid={null}
+          isValid={true}
           value={enterCompany}
-          onChange={null}
-          onBlur={null}
+          onChange={companyChangeHandler}
+          onBlur={() => {}}
         />
         <Input
           id="position"
           label="직급"
           type="text"
-          isValid={null}
+          isValid={true}
           value={enterPosition}
-          onChange={null}
-          onBlur={null}
+          onChange={positionChangeHandler}
+          onBlur={() => {}}
         />
         <Input
           id="team"
           label="팀"
           type="text"
-          isValid={null}
+          isValid={true}
           value={enterTeam}
-          onChange={null}
-          onBlur={null}
+          onChange={teamChangeHandler}
+          onBlur={() => {}}
         />
         <Input
           id="mainDetailJob"
           label="주상세업무"
           type="text"
-          isValid={null}
+          isValid={true}
           value={enterMainDetailJob}
-          onChange={null}
-          onBlur={null}
+          onChange={mainDetailJobChangeHandler}
+          onBlur={() => {}}
         />
         <Input
           id="userRole"
           label="역활"
           type="text"
-          isValid={null}
+          isValid={true}
           value={enterUserRole}
-          onChange={null}
-          onBlur={null}
+          onChange={userRoleChangeHandler}
+          onBlur={() => {}}
         />
         <Input
           id="cellphone"
           label="휴대폰번호"
           type="text"
-          isValid={null}
+          isValid={true}
           value={enterCellphone}
-          onChange={null}
-          onBlur={null}
+          onChange={cellphoneChangeHandler}
+          onBlur={() => {}}
         />
         <Input
           id="officePhone"
           label="사무실전화번호"
           type="text"
-          isValid={null}
+          isValid={true}
           value={enterOfficePhone}
-          onChange={null}
-          onBlur={null}
+          onChange={officePhoneChangeHandler}
+          onBlur={() => {}}
         />
         <Input
           id="birthday"
           label="생일"
           type="text"
-          isValid={null}
+          isValid={true}
           value={enterBirthday}
-          onChange={null}
-          onBlur={null}
+          onChange={birthDayChangeHandler}
+          onBlur={() => {}}
         />
         <div className={classes.actions}>
           <Button type="submit" className={classes.btn}>

@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-
+//로딩은 안에서 해결하자
 const useHttp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -13,13 +13,11 @@ const useHttp = () => {
         headers: requestConfig.headers ? requestConfig.headers : {},
         body: requestConfig.body ? JSON.stringify(requestConfig.body) : null,
       });
-
       if (!response.ok) {
         throw new Error("Request failed!");
       }
 
       const data = await response.json();
-
       applyData(data);
     } catch (err) {
       setError(err.message || "Something went wrong!");
