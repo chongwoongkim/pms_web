@@ -5,7 +5,7 @@ import classes from "./MainHeader.module.css";
 const MainHeader = (props) => {
   return (
     <header className={classes["main-header"]}>
-      <h1>회원가입</h1>
+      <h1>로그인</h1>
       {/* 
       <Navigation
         isLoggedIn={props.isAuthenticated}
