@@ -1,11 +1,11 @@
-//import { createStore } from "redex";
 import {configureStore} from "@reduxjs/toolkit";
 
-import authSlice from "./auth";
-import headerSlice from "./header";
+import authReducer from "./auth";
+import headerReducer from "./header";
+import counterReducer from './counter';
 
 const store = configureStore({
-    reducer: {auth: authSlice, header: headerSlice},
+    reducer: {counter: counterReducer, auth: authReducer, header: headerReducer},
 });
 
 export default store;

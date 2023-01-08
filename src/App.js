@@ -1,43 +1,28 @@
-import React, { useState, useEffect } from "react";
-
+import React from "react";
+import {Route, Switch} from "react-router-dom";
 import Login from "./components/Login/Login";
-import Home from "./components/Home/Home";
+//import Home from "./components/Home/Home";
 import MainHeader from "./components/MainHeader/MainHeader";
-// import JoninUser from "./components/User/JoninUser";
+import JoninUser from "./components/User/JoninUser";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  useEffect(() => {
-    const setroedUserLoggedInINfomation = localStorage.getItem("isLoggedIn");
 
-    if (setroedUserLoggedInINfomation === "1") {
-      setIsLoggedIn(true);
-    }
-  }, []);
+    return (
+        <React.Fragment>
+            <MainHeader/>
+            <main>
+                <Switch>
+                    <Route path="/joinUser" component={JoninUser}></Route>
+                    <Route path="/" component={Login}></Route>
 
-  const loginHandler = (email, password) => {
-    // We should of course check email and password
-    // But it's just a dummy/ demo anyways
-    localStorage.setItem("isLoggedIn", "1");
-    setIsLoggedIn(true);
-  };
-
-  const logoutHandler = () => {
-    localStorage.setItem("isLoggedIn", "0");
-    setIsLoggedIn(false);
-  };
-
-  return (
-    <React.Fragment>
-      <MainHeader isAuthenticated={isLoggedIn} onLogout={logoutHandler} />
-      <main>
-        {!isLoggedIn && <Login onLogin={loginHandler} />}
-        {isLoggedIn && <Home onLogout={logoutHandler} />}
-
-        {/* <JoninUser></JoninUser> */}
-      </main>
-    </React.Fragment>
-  );
+                    {/*
+          {true && <Login/>}
+          {false && <Home/>}
+           */}
+                </Switch>
+            </main>
+        </React.Fragment>
+    );
 }
 
 export default App;
