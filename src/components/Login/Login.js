@@ -8,10 +8,12 @@ import useInput from "../../hooks/use-input";
 import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {headerActions} from "../../store/header";
+import {useScript} from "../../hooks/use-script";
 
 const Login = () => {
     const dispatch = useDispatch();
-    
+    //was에 JS를 두자..
+    const status1 = useScript("https://code.jquery.com/jquery-3.6.3.min.js");
     const {
         value: enteredUserId,
         isValid: enteredUserIdIsValid,
@@ -39,7 +41,11 @@ const Login = () => {
 
     useEffect(() => {
         dispatch(headerActions.setTitle("로그인"));
-        sendTaskRequest({url: "/api/v1/loginKey"}, resultKey);
+        sendTaskRequest({url: "/pms/api/v1/loginKey"}, resultKey);
+        if (status1 === "ready") {
+            console.log(window.$("#userId"));
+            //console.log(window._.camelCase("aaaaa"));
+        }
     }, []);
 
     const resultKey = (data) => {
